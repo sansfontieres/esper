@@ -1,0 +1,35 @@
+#!/usr/bin/env instantfpc
+// vim: set ft=pascal
+// A simple UTC timestamp generator with optionnal markdown headings
+
+program timestamp;
+
+uses DateUtils, SysUtils, StrUtils;
+
+const
+  h1_ruler = '=';
+  h2_ruler = '-';
+
+var i: integer;
+
+procedure print_timestamp;
+  var
+    time_now : TDateTime;
+    datetime: string;
+  begin
+  time_now := localTimeToUniversal(Now);
+  datetime := dateToIso8601(time_now, false);
+  datetime := copy(datetime, 0, 19) + 'Z';
+  writeln(datetime);
+end;
+
+begin
+  print_timestamp;
+  for i := 1 to paramCount() do
+  begin
+    case paramStr(i) of
+      'h1': writeLn(dupeString(h1_ruler, 20));
+      'h2': writeLn(dupeString(h2_ruler, 20));
+    end;
+  end;
+end.

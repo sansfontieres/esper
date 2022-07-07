@@ -1,0 +1,11 @@
+#!/usr/bin/env janet
+# vim: set ft=janet
+# Back up a file (not really)
+# usage: bak file1 [file2 ...]
+
+(def files (array/remove (dyn :args) 0))
+(each file files
+  (def buff (slurp file))
+  (spit
+    (string/format "%s.bak" file)
+    buff))
